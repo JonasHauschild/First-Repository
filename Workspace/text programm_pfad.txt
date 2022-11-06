@@ -1,0 +1,40 @@
+C:\Users\Jonas>cd C:\Users\Jonas\Desktop\Python 3.8\Workspace>morpheus.py
+
+C:\Users\Jonas\Desktop\Python 3.8\Workspace>morpheus.py
+Hello world
+
+C:\Users\Jonas\Desktop\Python 3.8\Workspace>main.py
+Name:Haui
+Hallo Haui
+Körpergröße:1.77
+Gewicht:80
+Übergewicht
+('Haui', [25.54])
+Gewicht:50
+Untergewicht
+('Haui', [25.54, 15.96])
+Gewicht:
+
+# main = ein kleines Beipsiel Programm
+'''Für Kommentare über mehrere Zeilen'''
+
+# input für Zeichenketten (Strings)
+# int für Umwandlung von Zeichenketten in Ganzzahlen
+# float für Umwandlung von Zeichenketten in Kommazahlen
+# round zum Runden
+
+
+name=input('Name:')
+print('Hallo',name)
+gewicht=input('Gewicht:')
+groesse=input('Körpergröße:')
+bmi=round (float(gewicht)/(float(groesse)**2),2)
+print('BMI: ',bmi)
+if bmi>=25:
+    print('Übergewicht')
+elif bmi<18.5:
+    print('Untergewicht')
+else:
+    print('Normalgewicht')
+    
+print('Ende des Programms')

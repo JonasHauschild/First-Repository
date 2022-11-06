@@ -1,0 +1,3 @@
+meinLogger - DEBUG : 2020-04-05 10:47:28,288 - debugging
+meinLogger - DEBUG : 2020-04-09 13:34:11,255 - debugging
+meinLogger - DEBUG : 2020-04-09 13:40:21,898 - debugging

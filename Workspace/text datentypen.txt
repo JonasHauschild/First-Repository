@@ -1,0 +1,9 @@
+Sequentielle Datentypen sind Strings, Tupels und Listen 
+Srings und Tupels gewährleisten keine Änderung, deshalb sind sie in der Laufzeit besonders effizient
+Listen lassen sich zur Laufzeit ändern oder auch entfernen. Der Nachteil ist, dass sie zur Laufzeit eben langsamer sind
+Es gibt auch einen Fachbegriff für unveränderliche und veränderliche Datentypen, nämlich immutable und mutable
+Die Verarbeitung von Datenreihen des Datentyps Tupel, sind immer schneller als die von List, weil sie immutable, das heißt unveränderbar sind
+Arithmetischen Datentypen, wie Ganzzahlen, Kommazahlen oder Booleans sind auch unveränderlich
+Kombination aus Text und Zahl in Runden Klammern = Tupels
+Kombination aus Text und Zahl in Eckigen Klammern = Listen
+Help, Python Docs, The Python Standard Library, Built-In Types, Sequence Types, Common Sequences

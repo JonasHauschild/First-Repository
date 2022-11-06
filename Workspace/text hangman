@@ -1,0 +1,91 @@
+import random
+import string
+
+WORDLIST_FILENAME = "words.txt"
+
+
+def load_words():
+    print("Loading word list from file...")
+    inFile = open(WORDLIST_FILENAME, 'r')
+    line = inFile.readline()
+    wordlist = line.split()
+    print("  ", len(wordlist), "words loaded.")
+    return wordlist
+
+
+def choose_word(wordlist):
+    return random.choice(wordlist)
+
+
+wordlist = load_words()
+
+
+def get_guessed_word(secret_word, letters_guessed):
+    secret_word = secret_word
+    letters_guessed = []
+    print(get_guessed_word(secret_word, letters_guessed))
+
+
+def get_available_letters(letters_guessed):
+    print(string.ascii_lowercase)
+    letters_guessed = []
+    print(get_available_letters(letters_guessed))
+
+
+
+secret_word = choose_word(wordlist)
+print(secret_word)
+liste_secret_word = []
+available_letters = []
+letters_guessed = []
+guesses_start = 6
+for zeichen in string.ascii_lowercase:
+    available_letters.append(zeichen)
+for t in secret_word:
+    liste_secret_word.append(t)
+
+print(liste_secret_word)
+print('Welcome to the game Hangman!')
+print('I am thinking of a word that is',len(secret_word),'letters long.')
+print('You have',guesses_start, 'guesses left')
+print(len(secret_word)*'_ ')
+print('Available letters: ', string.ascii_lowercase)
+
+x = 5
+guesses = 0
+while guesses < 6:
+    letter_guessed = str(input('eingabe: '))
+    stelle_secret_word = [list(i for i in range(len(liste_secret_word)) if liste_secret_word[i] == letter_guessed)]
+    if letter_guessed in liste_secret_word:
+        print('Richtig! der Buchstabe des gesuchten Wortes befindet sich an der:',stelle_secret_word, 'Stelle')
+        letters_guessed.append(letter_guessed)
+        print(letters_guessed)
+        for i in letters_guessed:
+            if i in available_letters:
+                available_letters.remove(i)
+                if x > 0:
+                    print('After you chose: ',i, 'you have left ', available_letters)
+                    print('You have ',x, 'guesses left')
+                if x == 0:
+                    print('You have ',0, 'guesses left')
+    else:
+        print('Leider falsch versuche es erneut')
+        letters_guessed.append(letter_guessed)
+        print(letters_guessed)
+        for i in letters_guessed:
+            if i in available_letters:
+                available_letters.remove(i)
+                if x > 0:
+                    print('After you chose: ',i, 'you have left ', available_letters)
+                    print('You have ',x, 'guesses left')
+                if x == 0:
+                    print('You have ',0, 'guesses left')
+    x -= 1
+    guesses += 1
+
+print('Your chosen letters are: ',letters_guessed)
+
+
+
+#secret_word = choose_word(wordlist)
+#print(secret_word, 'has a length of ', len(secret_word))
