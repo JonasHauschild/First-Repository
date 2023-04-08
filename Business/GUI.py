@@ -10,7 +10,7 @@ def funktion_Modell_berechnen():
 root = tk.Tk()
 root.geometry('400x400')
 
-Label1 = tk.Label(root, text = 'Einlagenmodell KPMG')
+Label1 = tk.Label(root, text = 'Einlagenmodell Business')
 Label1.pack(side = 'top') # top, bottom, right, y fill und expand ebenfalls möglich
 
 button1 = ttk.Button(root, text = 'Zeitreihe hochladen', padding = 10, command=funktion_zeitreihe)
