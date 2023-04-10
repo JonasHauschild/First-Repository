@@ -4,19 +4,20 @@ import io
 
 import dash
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
-import dash_html_components as html
-import dash_table
+from dash import dcc
+from dash import html
+from dash import dash_table
 import plotly.express as px
 
 import pandas as pd
 
-from Service.ServideModellSarimax import ServiceModellSarimax
+import ServiceModellSarimax
+#from Service.ServideModellSarimax import ServiceModellSarimax
 
 
-external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheet=external_stylesheet,
+app = dash.Dash(__name__, external_scripts=external_stylesheets,
                 suppress_callback_exceptions=True)
 
 app.layout = html.Div([ # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload
