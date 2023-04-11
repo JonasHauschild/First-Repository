@@ -1,6 +1,6 @@
-from DataAdapter.DataAdapterCSV import DataAdapterCSV
-from Service.ServiceStatisticTools import ServiceStatisticTools
-from Service.ServiceModellSarimax import ServiceModellSarimax
+from Business.DataAdapter.DataAdapterCSV import DataAdapterCSV
+from Business.Service.ServiceStatisticTools import ServiceStatisticTools
+from Business.Service.ServiceModellSarimax import ServiceModellSarimax
 
 if __name__=='__main__':
     print('I run the script')

@@ -15,8 +15,8 @@ import pandas as pd
 import Service.Dash_Tab_2
 from Service.ServideModellSarimax import ServiceModellSarimax
 
-from Service.Dash_Tab_1 import upload_box
-from Service.Dash_Tab_2 import statistical_analysis
+from Business.Service.Dash_Tab_1 import upload_box
+from Business.Service.Dash_Tab_2 import statistical_analysis
 
 external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 

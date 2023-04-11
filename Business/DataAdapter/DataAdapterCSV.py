@@ -1,10 +1,11 @@
 import os
 import pandas as pd
 
-from DataRepository.AbstractDataRepository import AbstractDataRepository
-from Settings import Settings
+#AbstractDataRepository legt die Struktur der DataAdapter fest (Hier Vorgabe der Funktion get_data)
+from Business.DataRepository.AbstractDataRepository import AbstractDataRepository
+from Business.Settings import Settings
 
-class DataAdatpterCsv(AbstractDataRepository):
+class DataAdapterCSV(AbstractDataRepository): # Adapter adaptiert Struktur des übergeordneten Repositotys
     def __init__(self,
                  filepath: str = 'None',
                  date_cols: list = None):

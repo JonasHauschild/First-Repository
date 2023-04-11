@@ -11,8 +11,7 @@ import plotly.express as px
 
 import pandas as pd
 
-#import ServiceModellSarimax
-from Business.Service.ServiceModellSarimax import ServiceModellSarimax
+from Business.Service.ServiceModellSarimax import ServiceModellSarimax # oder Business als Source Root markieren und nur Service... schreiben
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
