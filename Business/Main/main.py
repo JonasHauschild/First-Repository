@@ -4,7 +4,7 @@ from Business.Service.ServiceModellSarimax import ServiceModellSarimax
 
 if __name__=='__main__':
     print('I run the script')
-    _adapter = DataAdapterCSV(filepath='Test-Data\\Zeitreihen - manipuliert.csv', date_cols = [])
+    _adapter = DataAdapterCSV(filepath=r'C:\Users\jhaus\PycharmProjects\Business\Test-Data\Zeitreihen - manipuliert.csv', date_cols=[])
     _data = _adapter.get_data()
 
     # Statistische Tests
