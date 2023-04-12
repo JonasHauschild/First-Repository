@@ -11,7 +11,7 @@ import plotly.express as px
 
 import pandas as pd
 
-from Business.Service.ServideModellSarimax import ServiceModellSarimax
+from Business.Service.ServiceModellSarimax import ServiceModellSarimax
 
 
 upload_box = html.Div([

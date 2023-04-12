@@ -13,14 +13,14 @@ import plotly.express as px
 import pandas as pd
 
 import Service.Dash_Tab_2
-from Service.ServideModellSarimax import ServiceModellSarimax
+from Service.ServiceModellSarimax import ServiceModellSarimax
 
 from Business.Service.Dash_Tab_1 import upload_box
 from Business.Service.Dash_Tab_2 import statistical_analysis
 
-external_stylesheet = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheet=external_stylesheet,
+app = dash.Dash(__name__, external_scripts=external_stylesheets,
                 suppress_callback_exceptions=True)
 
 app.layout = html.Div([ # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload

@@ -12,7 +12,7 @@ import plotly.express as px
 
 import pandas as pd
 
-from Service.ServideModellSarimax import ServiceModellSarimax
+from Service.ServiceModellSarimax import ServiceModellSarimax
 
 # Plot Zeitreihe
 _mygraph_time_series = dcc.Graph(figure={})
@@ -22,13 +22,9 @@ mytext_explain_test= dcc.Markdown(children='Hier steht die Erklärung der Statis
 mytext_interpret_test= dcc.Markdown(children='Hier steht die Ergebnisinterpretation der Statistik')
 
 statistical_analysis = html.Div([
-
     html.Div(children=[
-
         # Teststatistik auswählen
-
         html.Label('Teststatistik auswählen'),
-
         dcc.Dropdown(
             id='test_section',
             options=[
@@ -40,12 +36,11 @@ statistical_analysis = html.Div([
             clearable=False,
             multi=False
         ),
-
         #Zeilenumbruch durch Br
         html.Br(),
         #html.Div(children[
             html.Div('Choose Model'),
-            # Row
+            # ROW
         dbc.Row([
             # Col 1
             dbc.Col([
@@ -53,11 +48,11 @@ statistical_analysis = html.Div([
                 dcc.RadioItems(
                     options=[
                         {'label': 'Yes', 'value': 'Yes'},
-                        {'label': 'No', 'value': 'NO'},
+                        {'label': 'No', 'value': 'No'},
                     ],
                 value='No',
                 inline=True,
-                id='Select_model_arimax',
+                id='select_model_arimax',
                 ),
             ]),
             #
@@ -72,7 +67,7 @@ statistical_analysis = html.Div([
                     dcc.Input(
                         id='input-circular-2', type='number', min=0, max=20, value=0
                     ),
-                ]),
+                ],
                 id='collapse_parameter_arimax',
                 is_open=False
                 ),
