@@ -16,7 +16,7 @@ from Business.Service.ServiceModellSarimax import ServiceModellSarimax
 
 upload_box = html.Div([
     dcc.Upload(
-        id='upload_Data',
+        id='upload-data',
         children=html.Div([
             'Drag and Drop or ',
             html.A('Select Files')
@@ -35,9 +35,10 @@ upload_box = html.Div([
         multiple=True
     ),
     html.Div(id='output-div'),  # tied to the second callback
-    html.Div(id='output-datetable'),  # will hold return from first callback
+    html.Div(id='output-datatable'),  # will hold return from first callback
     html.Div(id='output-modeldata')  # will hold the modelled data
 ])
+
 
 def parse_contents(contents, filename, date):
     content_type, content_string = contents.split(',')
@@ -60,15 +61,15 @@ def parse_contents(contents, filename, date):
         html.H6(datetime.datetime.fromtimestamp(date)),
         html.P('Insert X axis data'),
         dcc.Dropdown(id='xaxis-data',
-                     options=[{'label':x,'value':x} for x in df.colums]),
+                     options=[{'label':x,'value':x} for x in df.columns]),
         html.P('Insert Y axis data'),
         dcc.Dropdown(id='yaxis-data',
-                     options=[{'label':x,'value':x} for x in df.colums]),
+                     options=[{'label':x,'value':x} for x in df.columns]),
         html.Button(id='submit-button', children='Create Graph'),
         html.Hr(),
 
         dash_table.DataTable(
-            data=df.todict('rocords'),
+            data=df.to_dict('rocords'),
             columns=[{'name':i, 'id':i} for i in df.columns],
             page_size=15
         ),
