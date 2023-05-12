@@ -1,5 +1,6 @@
 import base64
 import datetime
+import pandas as pd
 import io
 
 import dash
@@ -10,12 +11,14 @@ import dash_html_components as html
 import dash_table
 import plotly.express as px
 
-import pandas as pd
+from Business.Service.ServiceModellSarimax import ServiceModellSarimax # oder Business als Source Root markieren und nur Service... schreiben
+
 
 from Business.Service.Dash_Tab_1 import upload_box
 from Business.Service.Dash_Tab_2 import statistical_analysis
+from Business.Service.Dash_Tab_3 import Forecast
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = [dbc.themes.LUMEN] #Choose any theme you like on the website of dbc
 
 app = dash.Dash(__name__, external_scripts=external_stylesheets,
                 suppress_callback_exceptions=True)
@@ -30,16 +33,7 @@ app.layout = html.Div([ # this code section taken from Dash docs https://dash.pl
             statistical_analysis
         ]),
         dcc.Tab(label='Forecasting', children= [
-            dcc.Graph(
-                figure={
-                    'data': [
-                        {'x': [1,2,3], 'y': [2,3,4],
-                         'type': 'bar', 'name': 'SF'},
-                        {'x': [1, 2, 3], 'y': [5, 4, 3],
-                         'type': 'bar', 'name': u'Montreal'},
-                    ]
-                }
-            )
+            Forecast
         ]),
     ])
 ])
@@ -114,9 +108,166 @@ def make_graphs(n, data, x_data, y_data):
     else:
         bar_fig = px.line(data, x=x_data, y=y_data)
         #print(data)
-        return dcc.Graph(figure=bar_fig), \
-            html.Button(id='model-button', children='Modelliere Zeitreihe'),\
-            html.Hr()
+        return dcc.Graph(figure=bar_fig)
+
+
+@app.callback(Output('output-fft', 'children'),
+              Input('submit-button-fft', 'n_clicks'))
+def test_fft(n):
+    if n is None:
+        return dash.no_update
+    else:
+        #plot plotten
+        print(n)
+
+
+@app.callback(Output('output-sb', 'children'),
+              Input('submit-button-sb', 'n_clicks'))
+def test_sb(n):
+    if n is None:
+        return dash.no_update
+    else:
+        #plot plotten
+        print(n)
+
+
+@app.callback(Output('output-adf', 'children'),
+              Input('submit-button-adf', 'n_clicks'))
+def test_adf(n):
+    if n is None:
+        return dash.no_update
+    else:
+        #Funktion ADF test hier
+        print(n)
+
+
+@app.callback(Output('output-ak', 'children'),
+              Input('submit-button-ak', 'n_clicks'))
+def test_ak(n):
+    if n is None:
+        return dash.no_update
+    else:
+        #Funktion AK test hier
+        print(n)
+
+
+@app.callback(Output('output-button-params-saison', 'children'),
+              Input('submit-button-params-saison', 'n_clicks'),
+              State('input-circular-1-saison', 'value'),
+              State('input-circular-2-saison', 'value'),
+              State('input-circular-3-saison', 'value'),
+              State('input-circular-4-saison', 'value'))
+def button_params_saison(n, value1, value2, value3, value4):
+    if n is None:
+        return dash.no_update
+    else:
+        # Funktion Saison hier einfügen
+        print('button Saison', value1, value2, value3, value4)
+
+
+@app.callback(Output('output-button-params-arimax', 'children'),
+              Input('submit-button-params-arimax', 'n_clicks'),
+              State('input-circular-1-arimax', 'value'),
+              State('input-circular-2-arimax', 'value'),
+              State('input-circular-3-arimax', 'value'))
+def button_params_arimax(n, value1, value2, value3):
+    if n is None:
+        return dash.no_update
+    else:
+        #Funktion Arimax hier einfügen
+        print('button Arimax', value1, value2, value3)
+
+
+@app.callback(Output('output-button-params-exogen', 'children'),
+              Input('submit-button-params-exogen', 'n_clicks'),
+              State('input-circular-1-exogen', 'value'))
+def exogen(n, value):
+    if n is None:
+        return dash.no_update
+    else:
+        #Funktion Arimax hier einfügen
+        print('button Exogen', value)
+
+
+@app.callback(Output('results', 'children'),
+              Input('submit-button-modell', 'n_clicks'),
+              State('input-circular-1-saison', 'value'),
+              State('input-circular-2-saison', 'value'),
+              State('input-circular-3-saison', 'value'),
+              State('input-circular-4-saison', 'value'),
+              State('input-circular-1-arima', 'value'),
+              State('input-circular-2-arima', 'value'),
+              State('input-circular-3-arima', 'value'),
+              State('stored_data', 'data'),
+              State('xaxis_data', 'value'),
+              State('yaxis_data', 'value'))
+def button_modell(n, season_p, season_d, season_q, season_s, arima_p, arima_d, arima_q, df, xaxis, yaxis):
+    if n is None:
+        return dash.no_update
+    else:
+        print('Modell Button')
+        print('Seasonal Order: {}'.format((season_p, season_d, season_q, season_s)))
+        print('Arima Order: {}'.format((arima_p, arima_d, arima_q)))
+        fit, forecast, results = ServiceModellSarimax(data=pd.DataFrame(df),
+                                                      xcol=xaxis,
+                                                      ycol=yaxis,
+                                                      order=(arima_p, arima_d, arima_q),
+                                                      seasonal_order=(season_p, season_d, season_q, season_s)).run()
+
+        fitted_timeseries = fit.predict()
+        fitted_timeseries = fitted_timeseries.iloc[1:]
+        forecast_mean = forecast.predicted_mean
+        forecast_quantile = forecast.conf_int(alpha=0.01)
+
+        return html.Div([dcc.Store(id='stored-data-1', data=results.to_dict('records'))])
+
+
+
+@app.callback(Output('collapse-saisonalität', 'is_open'),
+              Input('collapse-button-saisonalität', 'n_clicks'),
+              State('collapse-saisonalität', 'is_open'))
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+
+@app.callback(Output('collapse-stationarität', 'is_open'),
+              Input('collapse-button-stationarität', 'n_clicks'),
+              State('collapse-stationarität', 'is_open'))
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+
+@app.callback(Output('collapse-autokorrelation', 'is_open'),
+              Input('collapse-button-autokorrelation der residualverteilung', 'n_clicks'),
+              State('collapse-autokorrelation', 'is_open'))
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+@app.callback(Output('collapse-modell', 'is_open'),
+              Input('collapse-button-modell', 'n_clicks'),
+              State('collapse-modell', 'is_open'))
+def toggle_collapse(n, is_open):
+    if n:
+        return not is_open
+    return is_open
+
+@app.callback(Output('output-predict', 'children'),
+              Input('Predict-id', 'n_clicks'),
+              State('stored-data-1', 'data'))
+def make_Forecast_plot(n, results):
+    if n is None:
+        return dash.no_update
+    else:
+
+        fig = px.line(results, x='Hist_Date', y=['Historie', 'Mittelwert']) #'0.99-Quantil lower', 0.99-Quantil upper'])
+
+        return dcc.Graph(figure=fig)
 
 
 if __name__ == '__main__':
