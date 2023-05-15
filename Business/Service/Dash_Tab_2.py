@@ -29,51 +29,53 @@ statistical_analysis = html.Div([
                        className= 'mb-3',
                        color= 'primary'),
 
-                dbc.Collapse(
-                    dbc.Row([
-                        dbc.Col([
-                            dbc.Card(
-                                dbc.CardBody(
+             dbc.Collapse(
+                 dbc.Row([
+                     dbc.Col([
+                         dbc.Card(
+                             dbc.CardBody(
 
-                                    children=[
+                                 children=[
+                                     html.Label('Zeitreihe auf Saisonalität überprüfen'),
+                                     html.Div(
+                                         html.Button(
+                                             id='submit-button-fft',
+                                             children='Fast Fourier Test'
+                                             )
+                                         ),
+                                     html.Br(),
+                                     html.Label('Saisonalität bereinigen'),
+                                     html.Div(
+                                         html.Button(
+                                             id='submit-button-sb',
+                                             children='Saisonalität bereinigen'
+                                             )
+                                         ),
 
-                                        html.Label('Zeitreihe auf Saisonalität überprüfen'),
-                                        html.Div(
-                                            html.Button(
-                                                id='submit-button-fft',
-                                                children='Fast Fourier Test'
-                                            )
-                                        ),
-                                        html.Br(),
-                                        html.Label('Saisonalität bereinigen'),
-                                        html.Div(
-                                            html.Button(
-                                                id='submit-button-sb',
-                                                children='Saisonalität bereinigen'
-                                            )
-                                        ),
-                                        html.Br(),
-                                    ], style={'padding': 10, 'height': 500, 'flex': 1, 'border': '1px solid'}
-                                )
-                            ),
-                        ]),
-                        dbc.Col([
-                            html.Div(
-                                children=[
-                                    _mygraph_time_series
-                                ]
-                            )
-                        ]),
-                    ]),
-                    id = 'collapse-saisonalität', is_open=False),
+                                     html.Br(),
 
-                html.Div(
-                    id='output-fft'
-                ),
-                html.Div(
-                    id='output-sb'
-                )
-            ], style={'padding': 10}
+                                     ], style={'padding': 10, 'height': 500, 'flex': 1, 'border': '1px solid'}
+                                 )
+                             ),
+                         ]),
+                     dbc.Col([
+                         html.Div(
+                             children=[
+                                 _mygraph_time_series
+                                 ]
+                             )
+                         ]),
+                     ]),
+                 id = 'collapse-saisonalität', is_open=False),
+
+
+             html.Div(
+                 id='output-fft'
+                 ),
+             html.Div(
+                 id='output-sb'
+                 )
+             ], style={'padding': 10}
         ),
 
         html.Br(),
@@ -174,7 +176,6 @@ statistical_analysis = html.Div([
 
         html.Br(),
 
-
         html.Div(
 
             [dbc.Button('Modellierung',
@@ -209,10 +210,6 @@ statistical_analysis = html.Div([
 
                              html.Br(),
 
-                             html.Label('Gwählte Parameter für die Modellierung der Saisonalität anwenden'),
-
-                             html.Br(),
-
                              html.Label('Parameter für das Arima-Modell wählen'),
 
                              dbc.Col([
@@ -232,10 +229,6 @@ statistical_analysis = html.Div([
 
                              html.Br(),
 
-                             html.Label('Gwählte Parameter für die Arima-Modellierung anwenden'),
-
-                             html.Br(),
-
                              html.Label('Parameter für die exogenen Faktoren wählen'),
 
                              dbc.Col([
@@ -244,10 +237,6 @@ statistical_analysis = html.Div([
                                      id='input-circular-exo-arima', type='number', min=0, max=20, value=0
                                  )
                              ]),
-
-                             html.Br(),
-
-                             html.Label('Gwählte Parameter für die exogenen Faktoren der Saisonalität anwenden'),
 
                              html.Br(),
 
@@ -266,17 +255,21 @@ statistical_analysis = html.Div([
                          ], style={'padding': 10, 'flex': 1, 'border': '1px solid'}
                      )
                  ),
-                 id='collapse-modell', is_opem=False
+                 id='collapse-modell', is_open=False
              ),
 
             html.Div(
-                id='output-forecast-mean'),
+                id='output-forecast-mean'
+            ),
              html.Div(
-                id='output-fitted-timeseries'),
+                id='output-fitted-timeseries'
+             ),
              html.Div(
-                id='output-forecast-quantile'),
+                id='output-forecast-quantile'
+             ),
              html.Div(
-                id='results')
+                id='results'
+             )
             ], style={'padding': 10}
 
         )

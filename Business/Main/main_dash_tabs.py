@@ -2,6 +2,7 @@ import base64
 import datetime
 import pandas as pd
 import io
+import plotly.express as px
 
 import dash
 from dash.dependencies import Input, Output, State
@@ -9,7 +10,7 @@ import dash_core_components as dcc
 import dash_bootstrap_components as dbc
 import dash_html_components as html
 import dash_table
-import plotly.express as px
+
 
 from Business.Service.ServiceModellSarimax import ServiceModellSarimax # oder Business als Source Root markieren und nur Service... schreiben
 
@@ -20,19 +21,19 @@ from Business.Service.Dash_Tab_3 import Forecast
 
 external_stylesheets = [dbc.themes.LUMEN] #Choose any theme you like on the website of dbc
 
-app = dash.Dash(__name__, external_scripts=external_stylesheets,
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
                 suppress_callback_exceptions=True)
 
 app.layout = html.Div([ # this code section taken from Dash docs https://dash.plotly.com/dash-core-components/upload
     html.H1('Einlagenmodellierung'),
     dcc.Tabs([
-        dcc.Tab(label='Input and View Data', children= [
+        dcc.Tab(label='Input and View Data', children=[
             upload_box
         ]),
-        dcc.Tab(label='Statistical Analysis and Model Parameters', children= [
+        dcc.Tab(label='Statistical Analysis and Model Parameters', children=[
             statistical_analysis
         ]),
-        dcc.Tab(label='Forecasting', children= [
+        dcc.Tab(label='Forecasting', children=[
             Forecast
         ]),
     ])
@@ -69,7 +70,7 @@ def parse_contents(contents, filename, date):
 
         dash_table.DataTable(
             data=df.to_dict('rocords'),
-            columns=[{'name':i, 'id':i} for i in df.columns],
+            columns=[{'name': i, 'id': i} for i in df.columns],
             page_size=15
         ),
         dcc.Store(id='stored-data', data=df.to_dict('records')),
@@ -165,22 +166,22 @@ def button_params_saison(n, value1, value2, value3, value4):
         print('button Saison', value1, value2, value3, value4)
 
 
-@app.callback(Output('output-button-params-arimax', 'children'),
-              Input('submit-button-params-arimax', 'n_clicks'),
-              State('input-circular-1-arimax', 'value'),
-              State('input-circular-2-arimax', 'value'),
-              State('input-circular-3-arimax', 'value'))
-def button_params_arimax(n, value1, value2, value3):
+@app.callback(Output('output-button-params-arima', 'children'),
+              Input('submit-button-params-arima', 'n_clicks'),
+              State('input-circular-1-arima', 'value'),
+              State('input-circular-2-arima', 'value'),
+              State('input-circular-3-arima', 'value'))
+def button_params_arima(n, value1, value2, value3):
     if n is None:
         return dash.no_update
     else:
         #Funktion Arimax hier einfügen
-        print('button Arimax', value1, value2, value3)
+        print('button Arima', value1, value2, value3)
 
 
 @app.callback(Output('output-button-params-exogen', 'children'),
               Input('submit-button-params-exogen', 'n_clicks'),
-              State('input-circular-1-exogen', 'value'))
+              State('input-circular-exo-arima', 'value'))
 def exogen(n, value):
     if n is None:
         return dash.no_update
@@ -198,9 +199,9 @@ def exogen(n, value):
               State('input-circular-1-arima', 'value'),
               State('input-circular-2-arima', 'value'),
               State('input-circular-3-arima', 'value'),
-              State('stored_data', 'data'),
-              State('xaxis_data', 'value'),
-              State('yaxis_data', 'value'))
+              State('stored-data', 'data'),
+              State('xaxis-data', 'value'),
+              State('yaxis-data', 'value'))
 def button_modell(n, season_p, season_d, season_q, season_s, arima_p, arima_d, arima_q, df, xaxis, yaxis):
     if n is None:
         return dash.no_update
@@ -218,14 +219,15 @@ def button_modell(n, season_p, season_d, season_q, season_s, arima_p, arima_d, a
         fitted_timeseries = fitted_timeseries.iloc[1:]
         forecast_mean = forecast.predicted_mean
         forecast_quantile = forecast.conf_int(alpha=0.01)
+        #Feedbackbox eingeben "Fertig"
 
         return html.Div([dcc.Store(id='stored-data-1', data=results.to_dict('records'))])
 
 
 
 @app.callback(Output('collapse-saisonalität', 'is_open'),
-              Input('collapse-button-saisonalität', 'n_clicks'),
-              State('collapse-saisonalität', 'is_open'))
+              [Input('collapse-button-saisonalität', 'n_clicks')],
+              [State('collapse-saisonalität', 'is_open')])
 def toggle_collapse(n, is_open):
     if n:
         return not is_open
@@ -233,8 +235,8 @@ def toggle_collapse(n, is_open):
 
 
 @app.callback(Output('collapse-stationarität', 'is_open'),
-              Input('collapse-button-stationarität', 'n_clicks'),
-              State('collapse-stationarität', 'is_open'))
+              [Input('collapse-button-stationarität', 'n_clicks')],
+              [State('collapse-stationarität', 'is_open')])
 def toggle_collapse(n, is_open):
     if n:
         return not is_open
@@ -242,16 +244,16 @@ def toggle_collapse(n, is_open):
 
 
 @app.callback(Output('collapse-autokorrelation', 'is_open'),
-              Input('collapse-button-autokorrelation der residualverteilung', 'n_clicks'),
-              State('collapse-autokorrelation', 'is_open'))
+              [Input('collapse-button-autokorrelation der residualverteilung', 'n_clicks')],
+              [State('collapse-autokorrelation', 'is_open')])
 def toggle_collapse(n, is_open):
     if n:
         return not is_open
     return is_open
 
 @app.callback(Output('collapse-modell', 'is_open'),
-              Input('collapse-button-modell', 'n_clicks'),
-              State('collapse-modell', 'is_open'))
+              [Input('collapse-button-modell', 'n_clicks')],
+              [State('collapse-modell', 'is_open')])
 def toggle_collapse(n, is_open):
     if n:
         return not is_open

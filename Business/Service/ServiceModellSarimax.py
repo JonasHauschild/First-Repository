@@ -35,6 +35,10 @@ class ServiceModellSarimax():
         _fit = _model.fit()
         _summary = _fit.summary()
 
+        #Gefittete Zeitreihe
+        _fitted_timeseries = _fit.predict()
+        _fitted_timeseries = _fitted_timeseries.iloc[1:0]
+
         # Forecast mit Saison
         _forecast = _fit.get_forecast(steps=100, signal_only=False)
         _fcst_maen = _forecast.predicted_mean
