@@ -104,25 +104,20 @@ statistical_analysis = html.Div([
                                      ),
 
                                      html.Br(),
+                                     html.Div(
+                                         id='output-adf'
+                                     )
 
-                                 ], style={'padding': 10, 'height': 500, 'flex': 1, 'border': '1px solid'}
+                                 ], style={'padding': 10, 'flex': 1, 'border': '1px solid'}
                              )
                          ),
                      ]),
                      dbc.Col([
-                         html.Div(
-                             children=[
-                                 _mygraph_time_series
-                             ]
-                         )
+
                      ]),
                  ]),
                  id='collapse-stationarität', is_open=False
              ),
-
-             html.Div(
-                 id='output-adf'
-             )
             ], style={'padding': 10}
         ),
 
@@ -130,8 +125,8 @@ statistical_analysis = html.Div([
 
         html.Div(
 
-            [dbc.Button('Residualverteilung',
-                        id='collapse-button-autokorrelation der residualverteilung',
+            [dbc.Button('Korrelationsfunktionen',
+                        id='collapse-button-autokorrelation',
                         className='mb-3',
                         color='primary'),
 
@@ -143,34 +138,50 @@ statistical_analysis = html.Div([
 
                                  children=[
 
-                                     html.Label('Autokorrelation der Residualverteilung testen'),
+                                     html.Label('ACF testen'),
                                      html.Div(
                                          html.Button(
-                                             id='submit-button-ak',
+                                             id='submit-button-acf',
                                              children='Test starten'
                                          )
                                      ),
 
                                      html.Br(),
+                                     dcc.Graph(
+                                         id='output-acf'
+                                     )
 
-                                 ], style={'padding': 10, 'height': 500, 'flex': 1, 'border': '1px solid'}
+                                 ], style={'padding': 10, 'flex': 1, 'border': '1px solid'}
                              )
                          ),
                      ]),
                      dbc.Col([
-                         html.Div(
-                             children=[
-                                 _mygraph_time_series
-                             ]
-                         )
+                         dbc.Card(
+                             dbc.CardBody(
+
+                                 children=[
+
+                                     html.Label('PACF testen'),
+                                     html.Div(
+                                         html.Button(
+                                             id='submit-button-pacf',
+                                             children='Test starten'
+                                         )
+                                     ),
+
+                                     html.Br(),
+                                     dcc.Graph(
+                                         id='output-pacf'
+                                     )
+
+                                 ], style={'padding': 10, 'flex': 1, 'border': '1px solid'}
+                             )
+                         ),
                      ]),
                  ]),
                  id='collapse-autokorrelation', is_open=False
              ),
 
-             html.Div(
-                 id='output-ak'
-             )
              ], style={'padding': 10}
         ),
 
@@ -185,6 +196,7 @@ statistical_analysis = html.Div([
              dbc.Collapse(
                  dbc.Card(
                      dbc.CardBody(
+
                          children=[
 
                              html.Label('Parameter für die Modellierung der Saisonalität wählen'),

@@ -6,9 +6,9 @@ Forecast = html.Div([
         [dbc.Button('Predict',
                     id='Predict_id',
                     className='mb-3',
-                    color='primayr'),
+                    color='primary'),
          html.Div(
              id='output-predict'),
          ], style={'padding': 10}
     )
-])
+    ])

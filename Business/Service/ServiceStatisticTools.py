@@ -16,6 +16,9 @@ class ServiceStatisticTools():
         self.xcol = xcol
         self.ycol = ycol
 
+    def __str__(self):
+        return str(self.run)
+
     @staticmethod
     def run_acf(data):
         print('calculating the Auto-Correlation-Function of the given data...')

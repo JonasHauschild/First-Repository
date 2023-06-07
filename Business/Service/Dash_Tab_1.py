@@ -1,15 +1,8 @@
-import base64
-import datetime
-import io
-import pandas as pd
-
-
 import dash_core_components as dcc
 import dash_html_components as html
-import dash_table
-
 
 upload_box = html.Div([
+    html.Label('Step 1'),
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -31,51 +24,11 @@ upload_box = html.Div([
     ),
     html.Div(id='output-div'),  # tied to the second callback
     html.Div(id='output-datatable'),  # will hold return from first callback
-    html.Div(id='output-modeldata')  # will hold the modelled data
+    html.Div(id='output-modeldata'),  # will hold the modelled data
+    dcc.Store(id='stored-data', data=None),
+    dcc.Store(id='stored-data-1', data=None),
+    html.P('Choose X-Axis'),
+    dcc.Dropdown(id='xaxis-data', options={}),
+    html.P('Choose Y-Axis'),
+    dcc.Dropdown(id='yaxis-data', options={})
 ])
-
-
-def parse_contents(contents, filename, date):
-    content_type, content_string = contents.split(',')
-
-    decoded = base64.b64decode(content_string)
-    try:
-        if 'csv' in filename:
-            df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
-        elif 'xls' in filename:
-            df = pd.read_excel(io.BytesIO(decoded))
-    except Exception as e:
-        print(e)
-        return html.Div([
-            'There was an error processing this file'
-        ])
-
-    return html.Div([
-        html.H5(filename),
-        html.H6(datetime.datetime.fromtimestamp(date)),
-        html.P('Insert X axis data'),
-        dcc.Dropdown(id='xaxis-data',
-                     options=[{'label':x,'value':x} for x in df.columns]),
-        html.P('Insert Y axis data'),
-        dcc.Dropdown(id='yaxis-data',
-                     options=[{'label':x,'value':x} for x in df.columns]),
-        html.Button(id='submit-button', children='Create Graph'),
-        html.Hr(),
-
-        dash_table.DataTable(
-            data=df.to_dict('rocords'),
-            columns=[{'name':i, 'id':i} for i in df.columns],
-            page_size=15
-        ),
-        dcc.Store(id='stored-data', data=df.to_dict('records')),
-
-        html.Hr(), # horizontel line
-
-        # For debugging, display the raw contents provided by the web browser
-        html.Div('Raw Content'),
-        html.Pre(contents[0:200] + '...', style={
-            'whiteSpace': 'pre-wrap',
-            'wordBreak': 'break-all'
-        })
-    ])
