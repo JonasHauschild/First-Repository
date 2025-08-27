@@ -5,7 +5,7 @@ import pandas as pd
 
 if __name__=='__main__':
     print('I run the script')
-    _adapter = DataAdapterCSV(filepath=r'C:\Users\jhaus\PycharmProjects\Business\Test-Data\Zeitreihen - manipuliert.csv', date_cols=[])
+    _adapter = DataAdapterCSV(filepath=r'C:\Users\jonas.hauschild\PycharmProjects\First-Repository-2\Business\Test-Data\Zeitreihen - manipuliert.csv', date_cols=[])
     _data = _adapter.get_data()
 
     # Statistische Tests

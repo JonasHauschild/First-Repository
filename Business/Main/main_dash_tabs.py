@@ -7,10 +7,10 @@ import numpy as np
 
 import dash
 from dash.dependencies import Input, Output, State
-import dash_core_components as dcc
+from dash import dcc
+from dash import html
+from dash import dash_table
 import dash_bootstrap_components as dbc
-import dash_html_components as html
-import dash_table
 
 from Business.Service.ServiceStatisticTools import ServiceStatisticTools
 from Business.Service.ServiceModellSarimax import ServiceModellSarimax # oder Business als Source Root markieren und nur Service... schreiben
@@ -307,4 +307,4 @@ def make_Forecast_plot(n, results):
 
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run(debug=True)
