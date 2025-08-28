@@ -96,6 +96,11 @@ statistical_analysis = html.Div([
                                  children=[
 
                                      html.Label('Zeitreihe auf Stationarität überprüfen'),
+                                     html.Label('First, I will check if the series is stationary using the Augmented Dickey Fuller test (ADF Test), from the statsmodels package.'),
+                                     html.Label('The reason being is that we need differencing only if the series is non-stationary. Else, no differencing is needed, that is, d=0.'),
+                                     html.Label('The null hypothesis (Ho) of the ADF test is that the time series is non-stationary.'),
+                                     html.Label('So, if the p-value of the test is less than the significance level (0.05) then we reject the null hypothesis and infer that the time series is indeed stationary.'),
+                                     html.Label('So, in our case, if P Value > 0.05 we go ahead with finding the order of differencing.'),
                                      html.Div(
                                          html.Button(
                                              id='submit-button-adf',
